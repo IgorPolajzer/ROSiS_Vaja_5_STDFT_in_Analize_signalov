@@ -1,7 +1,7 @@
 import csv
 
-from matplotlib import pyplot as plt
 import numpy as np
+from matplotlib import pyplot as plt
 
 def read_signal_from_csv(input_file):
     samples = []
@@ -23,3 +23,13 @@ def plot_spectogram(fr, ti, sp, file, interval, overlap, hamming):
     plt.colorbar(label='Amplituda')
     plt.show()
 
+
+def calculate_rpm(sp, fr):
+    # np.max(sp, axis=1) -> max frequency per time bin
+    # np.argmax -> max frequenca from all rows
+    peak_idx = np.argmax(np.max(sp, axis=1))
+    dominant_frequency = fr[peak_idx]
+    rpm = (dominant_frequency * 60)
+    print(f"Dominant Frequency: {dominant_frequency} Hz")
+    print(f"Rpm: {rpm}")
+    return rpm
