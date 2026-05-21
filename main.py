@@ -1,16 +1,11 @@
-# This is a sample Python script.
+from stdft import stdft
+from util import plot_spectogram
 
-# Press Shift+F10 to execute it or replace it with your code.
-# Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
-
-
-def print_hi(name):
-    # Use a breakpoint in the code line below to debug your script.
-    print(f'Hi, {name}')  # Press Ctrl+F8 to toggle the breakpoint.
-
-
-# Press the green button in the gutter to run the script.
 if __name__ == '__main__':
-    print_hi('PyCharm')
+    file = "naloga_1_rpm/sig3.csv"
+    interval = 1
+    overlap = 0.0
+    hamming = True
 
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
+    fr, ti, sp = stdft(file, interval, overlap, hamming_window=hamming)
+    plot_spectogram(fr, ti, sp, file, interval, overlap, hamming)
