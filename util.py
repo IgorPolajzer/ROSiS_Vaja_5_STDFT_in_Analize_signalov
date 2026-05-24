@@ -24,12 +24,24 @@ def plot_spectogram(fr, ti, sp, file, interval, overlap, hamming):
     plt.show()
 
 
-def calculate_rpm(sp, fr):
-    # np.max(sp, axis=1) -> max frequency per time bin
-    # np.argmax -> max frequenca from all rows
-    peak_idx = np.argmax(np.max(sp, axis=1))
-    dominant_frequency = fr[peak_idx]
-    rpm = (dominant_frequency * 60)
-    print(f"Dominant Frequency: {dominant_frequency} Hz")
-    print(f"Rpm: {rpm}")
+def calculate_rpm(fr, sp, t, min_rpm=500, max_rpm=2500):
+    spectrum = np.abs(sp[:, t])
+
+    # Hz search limits
+    min_hz = min_rpm // 60
+    max_hz = max_rpm // 60
+
+    # Find indices in fr array that match the freq bounds.
+    valid_indices = np.where((fr >= min_hz) & (fr <= max_hz))[0]
+
+    # Find the freq peak within valid indices
+    peak_idx_within_window = np.argmax(spectrum[valid_indices])
+    actual_peak_idx = valid_indices[peak_idx_within_window]
+
+    rotational_freq = fr[actual_peak_idx]
+    rpm = rotational_freq * 60
+
+    print(f"Motor Rotation Freq (at {t} s): {rotational_freq:.2f} Hz")
+    print(f"RPM: {rpm:.1f}")
+
     return rpm

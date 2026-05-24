@@ -1,7 +1,5 @@
 from math import ceil
 
-import numpy as np
-
 from util import *
 
 
@@ -31,7 +29,7 @@ def stdft(file_name, interval_length, overlap_percentage, nfft=1024, hamming_win
         if len(window) < nfft:
             window = np.pad(window, (0, nfft - len(window)))
 
-        # Caluculate end of window in seconds.
+        # Calculate the end of a window in seconds.
         t.append((idx + number_of_samples) / Fs)
 
         # Calculate FFT.
